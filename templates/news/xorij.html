@@ -1,0 +1,20 @@
+{% extends "news/base.html" %}
+{% load static %}
+
+{% block title %} Xorij yangiliklar {% endblock title %}
+
+{% block content %}
+    {% for news in Xorij_yangiliklar %}
+         <div class="container">
+           <div class="row row-cols-2">
+               <div class="col-md-4">
+                   <img class="img-fluid" src="{{ news.image.url }}">
+                   <h4>{{ news.title }}</h4>
+                   <P>{{ news.body }}</P>
+               </div>
+           </div>
+         </div>
+
+    {% endfor %}
+
+{% endblock content %}

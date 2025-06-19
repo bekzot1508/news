@@ -1,0 +1,13 @@
+{% extends "news/base.html" %}
+{% load static %}
+
+{% block title %}{{ news.title }}{% endblock title %}
+
+{% block content %}
+      <div class="container">
+          <h1>{{ news.title }}</h1>
+        <p>published date: {{ news.publish_time }}</p>
+        <img src="{{ news.image.url }}">
+        <p>{{ news.body | linebreaks }}</p>
+      </div>
+{% endblock content %}
