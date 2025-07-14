@@ -18,6 +18,9 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.fancybox.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/theme.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+        <!-- Font Awesome CDN -->
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     </head>
     <body>
         <div id="preloader">
@@ -34,9 +37,23 @@
                       <li><a href="{% url 'home_page' %}">Home</a></li>
                       <li><a href="#">About</a></li>
                       <li><a href="{% url 'contact_page' %}">Contact</a></li>
+                        {% if user.is_authenticated and user.is_superuser %}
+                        <li><a  href="{% url 'admin_page' %}">Admin page</a></li>
+                        {% endif %}
+                        <li>
+                            <form method="get" action="{% url 'search_results' %}">
+                                <input type="search" name="q" placeholder="qidiruv..." class="form-control">
+                            </form>
+                        </li>
                     </ul>
                   </div>
                   <div class="header_top_right">
+                      {% if request.user.is_authenticated %}
+                          <p><a href="{% url 'logout' %}" style="color: palegreen">Logout</a></p>
+                         <p><a href="{% url 'user_profile' %}" style="color:green">My profile</a></p>
+                      {% else %}
+                         <p><a href="{% url 'login' %}"  style="color:yellow">saytga kirish</a></p>
+                      {% endif %}
                     <p>{% now 'js F Y H:i' %}</p>
                   </div>
                 </div>

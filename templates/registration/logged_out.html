@@ -1,0 +1,28 @@
+<!--{% extends 'news/base.html' %}#}-->
+<!--{% load static %}#}-->
+
+<!--{% block title %} log out Sahifasi {% endblock title %}#}-->
+
+<!--{% block content %}#}-->
+<!--    <h2>Web-Saytdan chiqsh - Log Out</h2>#}-->
+<!--    <P>Siz saytdan chiqdingiz <a href="{% url 'login' %}">qayta kirish</a></P>-->
+<!--    <form method="post" action="{% url 'logout' %}">{% csrf_token %}#}-->
+<!--     <button type="submit">Logout</button>#}-->
+<!--   </form>#}-->
+<!--    <a href="{% url 'logout' %}">Logout</a>#}-->
+<!--{% endblock content %}#}-->
+
+{% extends 'news/base.html' %}
+{% load static %}
+
+{% block title %}Chiqish Sahifasi{% endblock title %}
+
+{% block content %}
+    <h2>Siz tizimdan chiqdingiz.</h2>
+    <form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+    </form>
+
+{% endblock content %}
+

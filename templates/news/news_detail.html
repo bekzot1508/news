@@ -1,13 +1,69 @@
 {% extends "news/base.html" %}
 {% load static %}
 
+{% load hitcount_tags %}
+
+
 {% block title %}{{ news.title }}{% endblock title %}
 
 {% block content %}
       <div class="container">
           <h1>{{ news.title }}</h1>
-        <p>published date: {{ news.publish_time }}</p>
+        <p>
+            published date: {{ news.publish_time }} |
+            {% get_hit_count for news as hit_count %}
+            <i class="fa-solid fa-eye" aria-hidden="true"></i>
+            {{ hit_count }} |
+            izoxlar soni: {{ comment_count }}
+        </p>
         <img src="{{ news.image.url }}">
         <p>{{ news.body | linebreaks }}</p>
       </div>
+
+    {% if request.user.is_authenticated and request.user.is_superuser %}
+    <div class="card-footer text-center">
+        <a href="{% url 'news_update' news.slug %}">Tahrirlash</a>
+        <a href="{% url 'news_delete' news.slug %}">o'chirish</a>
+    </div>
+    {% endif %} <br>
+    <hr>
+    <h3> bu yangilikka {{ comment_count }} ta izox qoldirilgan</h3>
+    {% for comment in comments %}
+        <div class="comments" style="padding: 10px">
+            <p class="font-weight-bold">
+                {{ comment.user }}
+                <span class="text-muted font-weight-normal">
+                    {{ comment.created_time }}
+                </span>
+            </p>
+            {{ comment.body | linebreaks }}
+        </div>
+    {% endfor %}
+
+    {% if user.is_authenticated %}
+        <div class="col-md-8 card mb-4 mt-3">
+            <div class="card-body">
+                <h3>izox qoldirish</h3>
+                <form method="post" style="margin-top: 1.3em">{% csrf_token %}
+                    {{ comment_form.as_p }}
+                    <button type="submit" class="btn btn-primary btn-large">
+                        yuborish
+                    </button>
+                </form>
+            </div>
+        </div>
+    {% else %}
+        <div class="card-body">
+            <p class="text-danger">
+                faqatgina ro'yxatdan o'tgan foydalanuvchilargina izoh qoldirishi mumkun
+            </p>
+            <p>
+                Izox qoldirish uchun
+                <a href="{% url 'user_register'%}" class="text-success">Ro'yxatdan O'ting </a>
+                yoki
+                <a href="{% url 'login'  %}" class="text-success">saytga kiring</a>
+            </p>
+        </div>
+    {% endif %}
+
 {% endblock content %}
